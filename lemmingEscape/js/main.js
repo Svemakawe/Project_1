@@ -50,13 +50,12 @@ function component(width, height, color, x, y) {
         this.x += this.speedX;
         this.y += this.speedY; 
     }
-   
+    //Werte meines players und der obstacles für oben,unten,links,rechts
     this.left   = function() { return this.x                 }
     this.right  = function() { return (this.x + this.width)  }
     this.top    = function() { return this.y                 }
-    this.bottom = function() { return this.y + (this.height) }
-    //testcrash
-    // this.crash = function(obstacle){ return this.speedX = obstacle.speedX}
+    this.bottom = function() { return (this.y + this.height) }
+    
 
 //---------------------------CRASH IN OBSTACLE--------------------------------
     this.crashWith = function(obstacle) {
@@ -67,50 +66,59 @@ function component(width, height, color, x, y) {
       }
 }
 
+/*
+        return !((this.bottom() < obstacle.top())    ||
+                 (this.top()    > obstacle.bottom()) ||
+                 (this.right()  < obstacle.left())   ||
+                 (this.left()   > obstacle.right())) 
+*/
+
+
+
 //-------------------------UPDATING THE CANVAS---------------------------------
 function updateGameArea() {
-    //-------------------PLAYER CANT MOVE WHEN CRASHING---------------------
 
+    //-------------------PLAYER CANT MOVE WHEN CRASHING---------------------
     for (i = 0; i < myObstacles.length; i += 1) {
         if (player.crashWith(myObstacles[i])) {
-             player.x = myObstacles[i].x
+             player.y = myObstacles[i].y
         } 
     } 
-    //-------------PLAYER CANT MOVE WHEN CRASHING THE BORDERS OF CANVAS--------------
-    // if (player.x > 730 && player.y < 0 && player.y > 720)
+
+    //----------PLAYER BOUNCE BACK WHEN CRASHING THE BORDERS OF CANVAS---------
     if (player.x > (myGameArea.canvas.width - player.width)){
         player.speedX *= -1;}
-    if (player.y > (myGameArea.canvas.height - player.height)){
-        player.speedY *= -1;}
+    if (player.x < 0){
+        player.speedX *= -1;}
     if (player.y < 0){
         player.speedY *= -1;}
     
-
-
-    //---------------------STOP WHEN LOOSING---------------------
-    if (player.x < 0) {
+    //------------------GAME STOPS WHEN LOOSING---------------------
+    if (player.y > (myGameArea.canvas.height - player.height)) {
         myGameArea.stop();
       }
 
 
+      
     myGameArea.clear();
-    myGameArea.frames +=1;//1-4
+    myGameArea.frames +=4;//1-4 mehr obstacles
 
     //---------------------CREATING OBSTACLES-----------------------
     if (myGameArea.frames % 100 === 0) {
-        x = myGameArea.canvas.width;
-        minHeight = 20;//20
-        maxHeight = 200;//200
-        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        x = myGameArea.canvas.height;
+        minWidth = 20;//20
+        maxWidth = 200;//200
+        width = Math.floor(Math.random()*(maxWidth-minWidth+1)+minWidth);
         minGap = 70;//50
         maxGap = 260;//200
 
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(30, height, "#a76106", x, 0));//
-        myObstacles.push(new component(30, x - height - gap, "#a76106", x, height + gap));
+        myObstacles.push(new component(width, 30,"#a76106", 0, 0));//
+        myObstacles.push(new component(x - width - gap, 30,"#a76106", x - width - gap, 0));  
+        
     }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -8;//-1 macht es schneller
+        myObstacles[i].y += 8;//-1 macht es schneller
         myObstacles[i].update();
     }
     player.newPos();
