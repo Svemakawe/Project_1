@@ -3,8 +3,7 @@ var myObstacles = [];
 
 function startGame() {
     myGameArea.start();
-    player = new component(50, 50, "#472b06", 30, 110);//---------NEW PLAYER--------
-    // looseLine = new component(12,1,"blue",20,770)
+    player = new component(50, 50, "#472b06", 0,700);//---------NEW PLAYER--------
 }
 
 //--------------------------------GAME AREA-----------------------------
@@ -22,7 +21,7 @@ var myGameArea = {
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
   score: function() {
-    points = (Math.floor(this.frames/5))
+    var points = (Math.floor(this.frames/5))
     this.context.font = '18px serif';
     this.context.fillStyle = 'black';
     this.context.fillText('Score: '+points, 350, 50);
@@ -50,6 +49,12 @@ function component(width, height, color, x, y) {
         this.x += this.speedX;
         this.y += this.speedY; 
     }
+
+    // this.moveUp=    function() { this.y -= 50 },
+    // this.moveDown=  function() { this.y += 50 },
+    // this.moveLeft=  function() { this.x -= 50 },
+    // this.moveRight= function() { this.x += 50 },
+
     //Werte meines players und der obstacles für oben,unten,links,rechts
     this.left   = function() { return this.x                 }
     this.right  = function() { return (this.x + this.width)  }
@@ -66,12 +71,6 @@ function component(width, height, color, x, y) {
       }
 }
 
-/*
-        return !((this.bottom() < obstacle.top())    ||
-                 (this.top()    > obstacle.bottom()) ||
-                 (this.right()  < obstacle.left())   ||
-                 (this.left()   > obstacle.right())) 
-*/
 
 
 
@@ -113,9 +112,7 @@ function updateGameArea() {
         var maxGap = 260;//200
 
         var gap = Math.floor(Math.random()*(maxGap-minGap)+minGap);
-        var xGap = Math.floor(Math.random()*(canvasWidth-gap))
-        // myObstacles.push(new component(width, 30,"#a76106", 0, 0));//
-        // myObstacles.push(new component(canvasHeight - width - gap, 30,"#a76106", canvasHeight - width - gap, 0));  
+        var xGap = Math.floor(Math.random()*(canvasWidth-gap)) 
         myObstacles.push(new component(xGap, 30,"#a76106", 0, 0));//
         myObstacles.push(new component(canvasWidth-xGap-gap, 30,"#a76106", xGap+gap, 0));//
          
@@ -131,19 +128,26 @@ function updateGameArea() {
 
 //---------------------------MOVE THE PLAYER --------------------------------
 function moveUp() {
-    player.speedY -= 1;//1 
+    player.speedY = -4;//1 
+    // player.y -= player.speedY
 }
 
 function moveDown() {
-    player.speedY += 1;//1 
+    player.speedY = 4;//1 
+    // player.y += player.speedY
+
 }
 
 function moveLeft() {
-    player.speedX -= 1;//1 
+    player.speedX = -4;//1 
+    // player.x -= player.speedX
+
 }
 
 function moveRight() {
-    player.speedX += 1;//1 
+    player.speedX = 4;//1 
+    // player.x += player.speedX
+
 }
 
 document.onkeydown = function(e) {
