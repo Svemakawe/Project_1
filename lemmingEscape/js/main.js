@@ -104,21 +104,24 @@ function updateGameArea() {
     myGameArea.frames +=4;//1-4 mehr obstacles
 
     //---------------------CREATING OBSTACLES-----------------------
-    if (myGameArea.frames % 100 === 0) {
-        x = myGameArea.canvas.height;
-        minWidth = 20;//20
-        maxWidth = 200;//200
-        width = Math.floor(Math.random()*(maxWidth-minWidth+1)+minWidth);
-        minGap = 70;//50
-        maxGap = 260;//200
+    if (myGameArea.frames % 200 === 0) {
+        var canvasWidth = myGameArea.canvas.width;
+        var minWidth = 20;//20
+        var maxWidth = 200;//200
+        var width = Math.floor(Math.random()*(maxWidth-minWidth+1)+minWidth);
+        var minGap = 70;//50
+        var maxGap = 260;//200
 
-        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(width, 30,"#a76106", 0, 0));//
-        myObstacles.push(new component(x - width - gap, 30,"#a76106", x - width - gap, 0));  
-        
+        var gap = Math.floor(Math.random()*(maxGap-minGap)+minGap);
+        var xGap = Math.floor(Math.random()*(canvasWidth-gap))
+        // myObstacles.push(new component(width, 30,"#a76106", 0, 0));//
+        // myObstacles.push(new component(canvasHeight - width - gap, 30,"#a76106", canvasHeight - width - gap, 0));  
+        myObstacles.push(new component(xGap, 30,"#a76106", 0, 0));//
+        myObstacles.push(new component(canvasWidth-xGap-gap, 30,"#a76106", xGap+gap, 0));//
+         
     }
-    for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].y += 8;//-1 macht es schneller
+    for (var i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].y += 2;//-1 macht es schneller
         myObstacles[i].update();
     }
     player.newPos();
