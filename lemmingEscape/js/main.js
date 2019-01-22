@@ -76,10 +76,15 @@ function updateGameArea() {
              player.x = myObstacles[i].x
         } 
     } 
-    //-------------PLAYER CANT MOVE WHEN CRASHING THE END OF CANVAS--------------
-    if (player.x > 780){
-        player.speedX = 0;
-    }
+    //-------------PLAYER CANT MOVE WHEN CRASHING THE BORDERS OF CANVAS--------------
+    // if (player.x > 730 && player.y < 0 && player.y > 720)
+    if (player.x > (myGameArea.canvas.width - player.width)){
+        player.speedX *= -1;}
+    if (player.y > (myGameArea.canvas.height - player.height)){
+        player.speedY *= -1;}
+    if (player.y < 0){
+        player.speedY *= -1;}
+    
 
 
     //---------------------STOP WHEN LOOSING---------------------
