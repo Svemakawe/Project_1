@@ -1,10 +1,46 @@
+//--------------------------------SEA CANVAS AREA-----------------------------
+// var seaCanvas = document.getElementById('sea')
+// var ctx = seaCanvas.getContext('2d')
+// var width = seaCanvas.width
+// var height = seaCanvas.height
+// document.body.insertBefore(seaCanvas,document.body.childNodes[1])
+
+// var bgSky = new Background("images/background-sky.png", 300*512/294,300, 0, 0, -0.5, 0)
+// var bgForest = new Background("images/background-forest.png", 450*512/323,450, 0, 150, -2, 0)
+// var bgClouds = new Background("images/background-clouds.png", 105*512/109,105, 0, 10, -1, 0)
+
+// function updateEverything() {
+//     bgForest.update()
+//     bgClouds.update()
+//     bgSky.update()
+//   }
+//   function drawEverything() {
+//     // Clear the canvas
+//     ctx.clearRect(0,0,width,height)
+  
+//     bgSky.draw(ctx)
+//     bgForest.draw(ctx)
+//     bgClouds.draw(ctx)
+//   }
+
+// function animation(){
+//   updateEverything()
+//   drawEverything()
+//   window.requestAnimationFrame(animation)
+// }
+// animation()
+
 //---------------------------START GAME --------------------------------
 var myObstacles = [];
 
+
 function startGame() {
     myGameArea.start();
-    player = new component(50, 50, "#472b06", 0,700);//---------NEW PLAYER--------
+    player = new component(50, 50,"/images/lemmingright.png", 0,700);//---------NEW PLAYER--------"/images/lemmingright.png",
 }
+
+
+
 
 //--------------------------------GAME AREA-----------------------------
 var myGameArea = {
@@ -18,7 +54,6 @@ var myGameArea = {
       this.interval = setInterval(updateGameArea, 20);
     },
     frames: 0,//0
-    
     clear : function() {
           if(!this.hasEnded) this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
@@ -27,14 +62,14 @@ var myGameArea = {
     this.context.font = '18px serif';
     this.context.fillStyle = 'black';
     this.context.fillText('Timer: '+timer, 350, 50);
-    if(timer === 200){
+    if(timer === 600){
         this.clear()
         this.context.fillText('You SURVIVED',350, 50); 
         this.stop()
     }
 
   },
- 
+  
   stop : function() {
         clearInterval(this.interval);
         this.hasEnded = true
@@ -45,17 +80,32 @@ var myGameArea = {
 }
 
 //----------------------------COMPONENTS CLASS-----------------------------
-function component(width, height, color, x, y) {
+function component(width, height, imgPath, x, y) {//color,
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y; 
     this.speedX = 0;
     this.speedY = 0;
+    this.image = new Image()
+    this.image.src = imgPath
+    
+    // this.img = new Image();
+    // this.img.src = imgPaths
+    // this.imgScale = 40/40;
+    // this.img.onload = function(){
+    //     ctx.drawImage(this.img,this.x,this.y)
+    // }
+
     this.update = function(){
-        ctx = myGameArea.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        var ctx = myGameArea.context;
+       // ctx.fillStyle = color;
+        // var pattern = ctx.createPattern(this.img, 'repeat'); // Create a pattern with this image, and set it to "repeat".
+        // ctx.fillStyle = pattern;
+        // ctx.drawImage(this.img,this.x,this.y)
+        // ctx.drawImage(this.img,-this.width/2,-this.height/2,this.width,this.height)
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
     this.newPos = function() {
         this.x += this.speedX;
@@ -128,8 +178,10 @@ function updateGameArea() {
 
         var gap = Math.floor(Math.random()*(maxGap-minGap)+minGap);
         var xGap = Math.floor(Math.random()*(canvasWidth-gap)) 
-        myObstacles.push(new component(xGap, 30,"#a76106", 0, 0));//
-        myObstacles.push(new component(canvasWidth-xGap-gap, 30,"#a76106", xGap+gap, 0));//
+
+
+        myObstacles.push(new component(xGap, 30,"/images/lemmingright.png", 0, 0));//
+        myObstacles.push(new component(canvasWidth-xGap-gap, 30,"/images/lemmingright.png", xGap+gap, 0));//
          
     }
     for (var i = 0; i < myObstacles.length; i += 1) {

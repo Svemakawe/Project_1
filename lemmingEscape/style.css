@@ -1,4 +1,21 @@
+body {
+  background: gray url(/images/background-forest.png) repeat 0 0;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  height: 100vh;
+  padding-top: 10px;
+  box-sizing: border-box;
+  animation: slide 20s linear infinite;
+}
+
+@-webkit-keyframes slide {
+  from { background-position: 0 0; }
+  to { background-position: -400px 0; }
+}
+
 canvas {
   border: 1px solid red;
   background-color: burlywood;
 }
+
