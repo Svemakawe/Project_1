@@ -1,5 +1,5 @@
 body {
-  background: gray url(/images/background-forest.png) repeat 0 0;
+  background: gray url(/images/seaOfLemmings.png) repeat 0 0; /* /images/seaOfLemmings.png */
   width: 100%;
   margin: 0;
   text-align: center;
@@ -11,7 +11,7 @@ body {
 
 @-webkit-keyframes slide {
   from { background-position: 0 0; }
-  to { background-position: -400px 0; }
+  to { background-position: -800px 0; }
 }
 
 canvas {

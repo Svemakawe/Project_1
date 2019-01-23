@@ -105,7 +105,11 @@ function component(width, height, imgPath, x, y) {//color,
         // ctx.drawImage(this.img,this.x,this.y)
         // ctx.drawImage(this.img,-this.width/2,-this.height/2,this.width,this.height)
         //ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        for (let i = this.x; i < this.x + this.width; i+=40) {
+            
+            ctx.drawImage(this.image, i, this.y, 40, 40);
+        }
     }
     this.newPos = function() {
         this.x += this.speedX;
@@ -128,8 +132,8 @@ function component(width, height, imgPath, x, y) {//color,
     this.crashWith = function(obstacle) {
         return !((this.bottom() < obstacle.top())    ||
                  (this.top()    > obstacle.bottom()) ||
-                 (this.right()  < obstacle.left())   ||
-                 (this.left()   > obstacle.right())) 
+                 (this.right() -10  < obstacle.left())   ||
+                 (this.left() +10  > obstacle.right())) 
       }
 }
 
@@ -180,7 +184,7 @@ function updateGameArea() {
         var xGap = Math.floor(Math.random()*(canvasWidth-gap)) 
 
 
-        myObstacles.push(new component(xGap, 30,"/images/lemmingright.png", 0, 0));//
+        myObstacles.push(new component(xGap, 30,"/images/lemmingleft.png", 0, 0));//
         myObstacles.push(new component(canvasWidth-xGap-gap, 30,"/images/lemmingright.png", xGap+gap, 0));//
          
     }
