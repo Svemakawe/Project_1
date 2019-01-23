@@ -9,6 +9,7 @@ function startGame() {
 //--------------------------------GAME AREA-----------------------------
 var myGameArea = {
     canvas : document.createElement("canvas"),
+    hasEnded: false,
     start : function() {
         this.canvas.width = 780;//480
         this.canvas.height = 770;//270
@@ -17,18 +18,29 @@ var myGameArea = {
       this.interval = setInterval(updateGameArea, 20);
     },
     frames: 0,//0
+    
     clear : function() {
-          this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          if(!this.hasEnded) this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
-  score: function() {
-    var points = (Math.floor(this.frames/5))
+  timer: function() {
+    var timer = (Math.floor(this.frames/5))
     this.context.font = '18px serif';
     this.context.fillStyle = 'black';
-    this.context.fillText('Score: '+points, 350, 50);
+    this.context.fillText('Timer: '+timer, 350, 50);
+    if(timer === 200){
+        this.clear()
+        this.context.fillText('You SURVIVED',350, 50); 
+        this.stop()
+    }
+
   },
+ 
   stop : function() {
         clearInterval(this.interval);
-    }
+        this.hasEnded = true
+    },
+    
+    // titel: function(){if(this.hasEnded = true){this.clear();this.context.fillText('You DIED',350, 100)}}
   
 }
 
@@ -77,10 +89,10 @@ function component(width, height, color, x, y) {
 //-------------------------UPDATING THE CANVAS---------------------------------
 function updateGameArea() {
 
-    //-------------------PLAYER CANT MOVE WHEN CRASHING---------------------
+    //-------------------PLAYER CANT MOVE FORWARD WHEN CRASHING---------------------
     for (i = 0; i < myObstacles.length; i += 1) {
         if (player.crashWith(myObstacles[i])) {
-             player.y = myObstacles[i].y
+             player.y = myObstacles[i].y + myObstacles[i].height
         } 
     } 
 
@@ -95,6 +107,9 @@ function updateGameArea() {
     //------------------GAME STOPS WHEN LOOSING---------------------
     if (player.y > (myGameArea.canvas.height - player.height)) {
         myGameArea.stop();
+        // myGameArea.titel()
+        myGameArea.context.fillText('You DIED',350, 100);
+        // document.getElementById('die').innerHTML = 'You DIED';
       }
 
 
@@ -123,30 +138,26 @@ function updateGameArea() {
     }
     player.newPos();
     player.update();
-    myGameArea.score();
+    myGameArea.timer();
 }
 
 //---------------------------MOVE THE PLAYER --------------------------------
 function moveUp() {
-    player.speedY = -4;//1 
-    // player.y -= player.speedY
+    player.speedY = -9;//1 
 }
 
 function moveDown() {
-    player.speedY = 4;//1 
-    // player.y += player.speedY
+    player.speedY = 9;//1 
 
 }
 
 function moveLeft() {
-    player.speedX = -4;//1 
-    // player.x -= player.speedX
+    player.speedX = -9;//1 
 
 }
 
 function moveRight() {
-    player.speedX = 4;//1 
-    // player.x += player.speedX
+    player.speedX = 9;//1 
 
 }
 
