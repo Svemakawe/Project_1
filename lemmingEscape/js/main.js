@@ -46,32 +46,46 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     hasEnded: false,
+    haveWon: false,
     start : function() {
         this.canvas.width = 780;//480
         this.canvas.height = 770;//270
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-      this.interval = setInterval(updateGameArea, 20);
+      this.interval = setInterval(updateGameArea, 20);//20
     },
     frames: 0,//0
     clear : function() {
-          if(!this.hasEnded) this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // if(this.hasEnded)  this.context.fillText('You DIED',350, 100);
+        //   
+          this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);//if(!this.hasEnded) this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
   timer: function() {
+    if (this.haveWon) {
+        this.context.fillText('You SURVIVED',350, 50); 
+        return
+    } else if (this.hasEnded) {
+        this.context.fillText('You DIED',350, 100);
+        return
+      }
     var timer = (Math.floor(this.frames/5))
     this.context.font = '18px serif';
     this.context.fillStyle = 'black';
     this.context.fillText('Timer: '+timer, 350, 50);
-    if(timer === 600){
+    if(timer === 500){
+        this.haveWon = true
         this.clear()
-        this.context.fillText('You SURVIVED',350, 50); 
         this.stop()
+        // this.hasEnded = true
+
     }
 
   },
   
   stop : function() {
-        clearInterval(this.interval);
+    //   this.frames ;
+        // setTimeout(this.start(),2000);
+        // clearInterval(this.interval)
         this.hasEnded = true
     },
     
@@ -143,9 +157,11 @@ function component(width, height, imgPath, x, y) {//color,
 //-------------------------UPDATING THE CANVAS---------------------------------
 function updateGameArea() {
 
+    var losing = false
+
     //-------------------PLAYER CANT MOVE FORWARD WHEN CRASHING---------------------
     for (i = 0; i < myObstacles.length; i += 1) {
-        if (player.crashWith(myObstacles[i])) {
+        if (player.crashWith(myObstacles[i]) && !myGameArea.haveWon) {
              player.y = myObstacles[i].y + myObstacles[i].height
         } 
     } 
@@ -161,8 +177,7 @@ function updateGameArea() {
     //------------------GAME STOPS WHEN LOOSING---------------------
     if (player.y > (myGameArea.canvas.height - player.height)) {
         myGameArea.stop();
-        // myGameArea.titel()
-        myGameArea.context.fillText('You DIED',350, 100);
+        losing = true
         // document.getElementById('die').innerHTML = 'You DIED';
       }
 
@@ -184,8 +199,12 @@ function updateGameArea() {
         var xGap = Math.floor(Math.random()*(canvasWidth-gap)) 
 
 
-        myObstacles.push(new component(xGap, 30,"/images/lemmingleft.png", 0, 0));//
-        myObstacles.push(new component(canvasWidth-xGap-gap, 30,"/images/lemmingright.png", xGap+gap, 0));//
+        if (!losing) {
+            
+                    myObstacles.push(new component(xGap, 30,"/images/lemmingleft.png", 0, 0));//
+                    myObstacles.push(new component(canvasWidth-xGap-gap, 30,"/images/lemmingright.png", xGap+gap, 0));//
+                }
+
          
     }
     for (var i = 0; i < myObstacles.length; i += 1) {
@@ -218,6 +237,9 @@ function moveRight() {
 }
 
 document.onkeydown = function(e) {
+
+
+    if (myGameArea.hasEnded) return;
   switch (e.keyCode) {
     case 38:
       moveUp();
