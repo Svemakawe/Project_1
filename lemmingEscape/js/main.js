@@ -54,69 +54,49 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
       this.interval = setInterval(updateGameArea, 20);//20
     },
-    frames: 0,//0
+    frames: 0,
     clear : function() {
-        // if(this.hasEnded)  this.context.fillText('You DIED',350, 100);
-        //   
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);//if(!this.hasEnded) this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
+
   timer: function() {
-        //ImgAnimation winning
+        //TEXT winning
     if (this.haveWon) {
-        this.context.fillText('You SURVIVED',350, 50);
+        this.context.fillText('You SURVIVED',250, 250);
         // player.imgWinLoop();
         return
     } else if (this.hasEnded) {
-        this.context.fillText('You DIED',350, 100);
+        this.context.fillText('You DIED',250, 250);
+        this.context.font = '60px Comic Sans MS, sans-serif';//"Lucida Console", Monaco, monospace---40px Comic Sans MS, sans-serif
+        this.context.shadowColor = "#000";
+        this.context.shadowOffsetX = 5;
+        this.context.shadowOffsetY = 5;
+        this.context.fillStyle = 'red';
         return
       }
     var timer = (Math.floor(this.frames/5))
     this.context.font = '18px serif';
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = 'white';
     this.context.fillText('Timer: '+timer, 350, 50);
-    if(timer === 400 && this.haveWon){
-        
+    if(timer === 200){
         this.haveWon = true
-        this.clear()
-        this.context.font = '38px serif';
+        this.context.font = '60px Comic Sans MS, sans-serif';//"Lucida Console", Monaco, monospace---40px Comic Sans MS, sans-serif
+        this.context.shadowColor = "#000";
+        this.context.shadowOffsetX = 5;
+        this.context.shadowOffsetY = 5;
         this.context.fillStyle = 'yellow';
+        
 
-        // this.context.textBaseline = "top";
-        // this.context.shadowColor = "#000"
-        // this.context.shadowOffsetX = width;
-        // this.context.shadowOffsetY = 0;
-        // this.context.shadowBlur = blur;
-        // this.context.fillText(text, -width, 0);
-
-
+        this.clear()
         this.stop()
-        // this.hasEnded = true
-/*var text = “Hello world!”
-var blur = 10;
-var width = ctx.measureText(text).width + blur * 2;
-ctx.textBaseline = “top”
-ctx.shadowColor = “#000”
-ctx.shadowOffsetX = width;
-ctx.shadowOffsetY = 0;
-ctx.shadowBlur = blur;
-ctx.fillText(text, -width, 0);
- */
-
-
-
     }
 
   },
-  
+
   stop : function() {
-    //   this.frames ;
-        // setTimeout(this.start(),2000);
-        // clearInterval(this.interval)
         this.hasEnded = true
-    },
-    
-    // titel: function(){if(this.hasEnded = true){this.clear();this.context.fillText('You DIED',350, 100)}}
-  
+    }, 
+
 }
 
 //----------------------------COMPONENTS CLASS-----------------------------
@@ -134,23 +114,9 @@ function component(width, height, imgPath, x, y) {//color,
         for(var i = 0;i < imgsWinning.length;i++){this.image.src = imgsWinning[i]}
     }
 
-
-    // this.img = new Image();
-    // this.img.src = imgPaths
-    // this.imgScale = 40/40;
-    // this.img.onload = function(){
-    //     ctx.drawImage(this.img,this.x,this.y)
-    // }
-
     this.update = function(){
         var ctx = myGameArea.context;
-       // ctx.fillStyle = color;
-        // var pattern = ctx.createPattern(this.img, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-        // ctx.fillStyle = pattern;
-        // ctx.drawImage(this.img,this.x,this.y)
-        // ctx.drawImage(this.img,-this.width/2,-this.height/2,this.width,this.height)
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
-        // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+       
         for (let i = this.x; i < this.x + this.width; i+=40) {
             ctx.drawImage(this.image, i, this.y, 40, 40);
         }
