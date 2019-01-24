@@ -29,18 +29,18 @@
 //   window.requestAnimationFrame(animation)
 // }
 // animation()
+// var lands = document.getElementById('landscape');
+// lands.insertBefore(lands,document.document.getElem.childNodes[1])
 
 //---------------------------START GAME --------------------------------
 var myObstacles = [];
-
+var imgsWinning = ["/images/winningLemming0.png","/images/winningLemming1.png"]
 
 function startGame() {
     myGameArea.start();
-    player = new component(50, 50,"/images/lemmingright.png", 0,700);//---------NEW PLAYER--------"/images/lemmingright.png",
+    player = new component(40, 40,"/images/winningLemming0.png", 350,100);//---------NEW PLAYER--------"/images/lemmingright.png",
+    
 }
-
-
-
 
 //--------------------------------GAME AREA-----------------------------
 var myGameArea = {
@@ -48,8 +48,8 @@ var myGameArea = {
     hasEnded: false,
     haveWon: false,
     start : function() {
-        this.canvas.width = 780;//480
-        this.canvas.height = 770;//270
+        this.canvas.width = 766;//480
+        this.canvas.height = 660;//270
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
       this.interval = setInterval(updateGameArea, 20);//20
@@ -61,8 +61,10 @@ var myGameArea = {
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);//if(!this.hasEnded) this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
   timer: function() {
+        //ImgAnimation winning
     if (this.haveWon) {
-        this.context.fillText('You SURVIVED',350, 50); 
+        this.context.fillText('You SURVIVED',350, 50);
+        // player.imgWinLoop();
         return
     } else if (this.hasEnded) {
         this.context.fillText('You DIED',350, 100);
@@ -72,11 +74,35 @@ var myGameArea = {
     this.context.font = '18px serif';
     this.context.fillStyle = 'black';
     this.context.fillText('Timer: '+timer, 350, 50);
-    if(timer === 500){
+    if(timer === 400 && this.haveWon){
+        
         this.haveWon = true
         this.clear()
+        this.context.font = '38px serif';
+        this.context.fillStyle = 'yellow';
+
+        // this.context.textBaseline = "top";
+        // this.context.shadowColor = "#000"
+        // this.context.shadowOffsetX = width;
+        // this.context.shadowOffsetY = 0;
+        // this.context.shadowBlur = blur;
+        // this.context.fillText(text, -width, 0);
+
+
         this.stop()
         // this.hasEnded = true
+/*var text = “Hello world!”
+var blur = 10;
+var width = ctx.measureText(text).width + blur * 2;
+ctx.textBaseline = “top”
+ctx.shadowColor = “#000”
+ctx.shadowOffsetX = width;
+ctx.shadowOffsetY = 0;
+ctx.shadowBlur = blur;
+ctx.fillText(text, -width, 0);
+ */
+
+
 
     }
 
@@ -104,6 +130,11 @@ function component(width, height, imgPath, x, y) {//color,
     this.image = new Image()
     this.image.src = imgPath
     
+    this.imgWinLoop = function(){
+        for(var i = 0;i < imgsWinning.length;i++){this.image.src = imgsWinning[i]}
+    }
+
+
     // this.img = new Image();
     // this.img.src = imgPaths
     // this.imgScale = 40/40;
@@ -121,7 +152,6 @@ function component(width, height, imgPath, x, y) {//color,
         //ctx.fillRect(this.x, this.y, this.width, this.height);
         // ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         for (let i = this.x; i < this.x + this.width; i+=40) {
-            
             ctx.drawImage(this.image, i, this.y, 40, 40);
         }
     }
@@ -214,6 +244,8 @@ function updateGameArea() {
     player.newPos();
     player.update();
     myGameArea.timer();
+
+    if(myGameArea.haveWon){player.imgWinLoop()}
 }
 
 //---------------------------MOVE THE PLAYER --------------------------------

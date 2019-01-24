@@ -1,10 +1,10 @@
 body {
-  background: gray url(/images/background-forest.png) repeat 0 0; /* gray url(/images/seaOfLemmings.png) repeat 0 0; */
+  background: gray url(/images/seaOfLemmings.png) repeat 0 0; /* gray url(/images/seaOfLemmings.png) repeat 0 0; */
   width: 100%;
   margin: 0;
   text-align: center;
   height: 100vh;
-  padding-top: 10px;
+  /* padding-top: 10px; */
   box-sizing: border-box;
   animation: slide 20s linear infinite;
 }
@@ -15,7 +15,7 @@ body {
 }
 
 canvas {
-  border: 1px solid red;
-  background-color: burlywood;
+  /* border: 1px solid red; */
+  background-image: url(/images/lemmingMainRock.png);
 }
 
