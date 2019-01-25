@@ -34,11 +34,11 @@
 
 //---------------------------START GAME --------------------------------
 var myObstacles = [];
-var imgsWinning = ["/images/winningLemming0.png","/images/winningLemming1.png"]
-var mySound = new Audio('/audio/8bit.mp3')
+var imgsWinning = ["images/winningLemming0.png","images/winningLemming1.png"]
+var mySound = new Audio('audio/8bit.mp3')
 function startGame() {
     myGameArea.start();
-    player = new component(40, 40,"/images/winningLemming0.png", 350,100);//---------NEW PLAYER--------"/images/lemmingright.png",
+    player = new component(40, 40,"images/winningLemming0.png", 350,100);//---------NEW PLAYER--------"/images/lemmingright.png",
 }
 
 //--------------------------------GAME AREA-----------------------------
@@ -88,7 +88,7 @@ var myGameArea = {
     // if(timer === 200){this.frames += 2}
     // else if(timer === 400){this.frames += 2}
     // else 
-    if(timer === 600){
+    if(timer === 900){
         this.haveWon = true
         
         this.context.font = '60px Comic Sans MS, sans-serif';//"Lucida Console", Monaco, monospace---40px Comic Sans MS, sans-serif
@@ -192,7 +192,7 @@ function updateGameArea() {
 
       
     myGameArea.clear();
-    myGameArea.frames +=4;
+    myGameArea.frames +=5;
     //---------------------CREATING OBSTACLES-----------------------
     if (myGameArea.frames % 200 === 0) {
         var canvasWidth = myGameArea.canvas.width;
@@ -208,14 +208,14 @@ function updateGameArea() {
 
         if (!losing) {
             
-                    myObstacles.push(new component(xGap, 30,"/images/lemmingleft.png", 0, 0));//
-                    myObstacles.push(new component(canvasWidth-xGap-gap, 30,"/images/lemmingright.png", xGap+gap, 0));//
+                    myObstacles.push(new component(xGap, 30,"images/lemmingleft.png", 0, 0));//
+                    myObstacles.push(new component(canvasWidth-xGap-gap, 30,"images/lemmingright.png", xGap+gap, 0));//
                 }
 
          
     }
     for (var i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].y += 2;//-1 macht es schneller
+        myObstacles[i].y += 3;//2-1 macht es schneller
         myObstacles[i].update();
     }
     player.newPos();

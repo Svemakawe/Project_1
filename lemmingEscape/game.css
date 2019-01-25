@@ -1,5 +1,5 @@
 body {
-  background: gray url(/images/seaOfLemmings.png) repeat 0 0; /* gray url(/images/seaOfLemmings.png) repeat 0 0; */
+  background: #45717c url(images/seaOfLemmings.png) repeat 0 0; /* gray url(/images/seaOfLemmings.png) repeat 0 0; */
   width: 100%;
   margin: 0;
   text-align: center;
@@ -28,10 +28,23 @@ body {
 
 canvas {
   /* border: 1px solid red; */
-  background-image: url(/images/lemmingMainRock.png);
+  background-image: url(images/lemmingMainRock.png);
   max-width: 100%;
   
 }
+
+#again {
+  background-color: #45717c; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
 
 /* #smallRocks{
   background: url(/images/smallRock.png) repeat 0 0;
