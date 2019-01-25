@@ -35,24 +35,27 @@
 //---------------------------START GAME --------------------------------
 var myObstacles = [];
 var imgsWinning = ["/images/winningLemming0.png","/images/winningLemming1.png"]
-
+var mySound = new Audio('/audio/8bit.mp3')
 function startGame() {
     myGameArea.start();
     player = new component(40, 40,"/images/winningLemming0.png", 350,100);//---------NEW PLAYER--------"/images/lemmingright.png",
-    
 }
 
 //--------------------------------GAME AREA-----------------------------
 var myGameArea = {
-    canvas : document.createElement("canvas"),
+    canvas : document.querySelector("canvas"),
     hasEnded: false,
     haveWon: false,
+    // soundOn: true,
+
     start : function() {
         this.canvas.width = 766;//480
         this.canvas.height = 660;//270
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        //document.body.insertBefore(this.canvas, document.body.childNodes[0]);
       this.interval = setInterval(updateGameArea, 20);//20
+
+
     },
     frames: 0,
     clear : function() {
@@ -61,9 +64,13 @@ var myGameArea = {
 
   timer: function() {
         //TEXT winning
+    if(this.haveWon || this.hasEnded) {
+        document.getElementById("again").parentElement.style = "initial"
+    }
+
     if (this.haveWon) {
         this.context.fillText('You SURVIVED',250, 250);
-        // player.imgWinLoop();
+        this.frames +=16//CHEATE hier den aussetzer der ObstacleLoops
         return
     } else if (this.hasEnded) {
         this.context.fillText('You DIED',250, 250);
@@ -78,8 +85,12 @@ var myGameArea = {
     this.context.font = '18px serif';
     this.context.fillStyle = 'white';
     this.context.fillText('Timer: '+timer, 350, 50);
-    if(timer === 200){
+    // if(timer === 200){this.frames += 2}
+    // else if(timer === 400){this.frames += 2}
+    // else 
+    if(timer === 600){
         this.haveWon = true
+        
         this.context.font = '60px Comic Sans MS, sans-serif';//"Lucida Console", Monaco, monospace---40px Comic Sans MS, sans-serif
         this.context.shadowColor = "#000";
         this.context.shadowOffsetX = 5;
@@ -152,8 +163,10 @@ function component(width, height, imgPath, x, y) {//color,
 
 //-------------------------UPDATING THE CANVAS---------------------------------
 function updateGameArea() {
+    
 
     var losing = false
+    
 
     //-------------------PLAYER CANT MOVE FORWARD WHEN CRASHING---------------------
     for (i = 0; i < myObstacles.length; i += 1) {
@@ -177,11 +190,9 @@ function updateGameArea() {
         // document.getElementById('die').innerHTML = 'You DIED';
       }
 
-
       
     myGameArea.clear();
-    myGameArea.frames +=4;//1-4 mehr obstacles
-
+    myGameArea.frames +=4;
     //---------------------CREATING OBSTACLES-----------------------
     if (myGameArea.frames % 200 === 0) {
         var canvasWidth = myGameArea.canvas.width;
@@ -210,7 +221,8 @@ function updateGameArea() {
     player.newPos();
     player.update();
     myGameArea.timer();
-
+    mySound.play()
+    // if(myGameArea.soundOn){mySound.play()}else{mySound.pause()}
     if(myGameArea.haveWon){player.imgWinLoop()}
 }
 
@@ -233,6 +245,13 @@ function moveRight() {
     player.speedX = 9;//1 
 
 }
+// function muteSound(){
+//     myGameArea.soundOn = false
+// }
+// function soundBack(){
+//     myGameArea.soundOn = true
+// }
+
 
 document.onkeydown = function(e) {
 
@@ -251,6 +270,12 @@ document.onkeydown = function(e) {
     case 39:
       moveRight();
       break;
+    // case 77:
+    // muteSound()
+    // break;
+    // case 79:
+    // soundBack()
+    // break;
   }
 }
 
@@ -266,3 +291,11 @@ function stopMove() {
 
 //---------------------------START THE GAME --------------------------------
 startGame();
+
+
+document.getElementById("again").onClick = function() {
+    this.parentElement.style.display = "none"
+}
+// function levelOne(){
+//     myGameArea.levelOne = true
+// }

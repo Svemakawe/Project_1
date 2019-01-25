@@ -1,0 +1,45 @@
+body {
+  background: gray url(/images/seaOfLemmings.png) repeat 0 0; /* gray url(/images/seaOfLemmings.png) repeat 0 0; */
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  height: 100vh;
+  /* padding-top: 10px; */
+  box-sizing: border-box;
+  /* animation: slide 20s linear infinite; */
+  transition: all 1s ease-in-out;
+  animation: slide 5s linear infinite;
+}
+
+@-webkit-keyframes slide {
+  0% {
+    background-position:0 0;
+  }
+  50% {
+    background-position: -50px 0;
+  }
+  100% {
+    background-position:0 0;
+  }
+  
+}
+/* from { background-position: 0 0; }
+  to { background-position: -200px 0; } */
+
+canvas {
+  /* border: 1px solid red; */
+  background-image: url(/images/lemmingMainRock.png);
+  max-width: 100%;
+  
+}
+
+/* #smallRocks{
+  background: url(/images/smallRock.png) repeat 0 0;
+  width: 100vw;
+  height: 20vh;
+}
+#test{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+} */
